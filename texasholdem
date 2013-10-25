@@ -1,0 +1,93 @@
+
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+#include <string>
+using namespace std;
+
+int rand_0toN1(int n); 
+void draw_a_card();	
+int select_next_available(int n);
+bool card_drawn[52];
+int cards_remaining = 52;
+char suits[4] = {03, 04, 05, 06};	
+string ranks[13] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+
+int main(){
+	int n = 1, i;
+	srand(time(NULL));
+	while(1){	
+		cout << "Press 1 to continue, (0 to exit): " <<"\n";
+		cin >> n;
+			if (n == 0)
+				break;
+		system ("cls");
+		cout <<"player1" << "\t\t" << "player2" <<"\t\t"<< "player 3" <<"\t"<< "player4" << endl;
+
+	for(int deal = 0; deal < 2; deal++) { 
+		for(int player = 0; player < 4; player++){	// 4 players
+			draw_a_card();
+			cout <<"\t\t";
+		}	
+	
+	cout <<"\n\n";
+
+}	// done dealing
+	
+	cout <<endl;
+	system ("pause");
+	
+	int a = rand_0toN1(cards_remaining--);
+	int dropCard = select_next_available(a);	// a = next card
+	for(int flop = 0; flop < 3; flop++){	// the flop 3 cards
+		draw_a_card();
+		cout << "\t";
+		
+	}	
+	cout <<endl;
+	system("pause");
+
+	a = rand_0toN1(cards_remaining--);		// turn
+	dropCard = select_next_available(a);	
+	draw_a_card();
+	cout <<"\n";
+	
+	system("pause");
+	 a = rand_0toN1(cards_remaining--);
+	dropCard = select_next_available(a);	// river
+	draw_a_card();
+	cout <<"\n";
+		}
+	system ("pause");
+	return 0;
+	}
+
+	void draw_a_card(){
+		int r;	
+		int s;
+		int n, card;
+		n = rand_0toN1(cards_remaining--);
+		card = select_next_available(n);	
+		r = card % 13;	
+		s = card / 13;	
+		cout << ranks[r]<< suits[s];
+	}
+
+	int select_next_available(int n) {
+		int i = 0;
+			while (card_drawn[i])	
+				i++;	
+			while (n -- > 0){	
+				i++;
+				while (card_drawn[i])
+					i++;
+			}
+		card_drawn[i] = true;	
+			return i;	
+	}
+		
+	int rand_0toN1(int n){
+		return rand() % n;
+	}
+
